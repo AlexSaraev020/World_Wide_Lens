@@ -13,16 +13,16 @@ export default function Footer() {
         World Wide Lens
       </h1>
       <ul className='pb-4 flex gap-3'>
-        <a href="https://www.instagram.com/alexsaraev.15/" target="_blank">
+        <a className='flex items-center justify-center' href="https://www.instagram.com/alexsaraev.15/" target="_blank">
           <Instagram className='w-4 sm:w-6 md:w-8 fill-white' />
         </a>
-        <a href="https://www.linkedin.com/in/saraev-alexandru-5a3baa265/">
+        <a className='flex items-center justify-center' href="https://www.linkedin.com/in/saraev-alexandru-5a3baa265/" target="_blank">
           <LinkedIn className='w-6 sm:w-8 md:w-11 fill-white' />
         </a>
-        <a href="https://github.com/AlexSaraev020?tab=repositories">
+        <a className='flex items-center justify-center' href="https://github.com/AlexSaraev020?tab=repositories" target="_blank">
           <GitHub className='w-4 sm:w-6 md:w-8 fill-white' />
         </a>
-        <a href="https://www.facebook.com/alexandru.saraev.3/">
+        <a className='flex items-center justify-center' href="https://www.facebook.com/alexandru.saraev.3/" target="_blank">
           <Facebook className='w-6 sm:w-8 md:w-11 fill-white' />
         </a>
       </ul>
