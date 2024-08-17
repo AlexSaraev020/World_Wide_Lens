@@ -17,7 +17,7 @@ export default function Nav() {
             <ul className='w-full flex items-center justify-center text-white gap-4'>
                 {navLinks.map((link) => (
                     <li key={link.id}>
-                        <LinkButton href={link.link}>
+                        <LinkButton nav href={link.link}>
                             {link.title}
                         </LinkButton>
                     </li>

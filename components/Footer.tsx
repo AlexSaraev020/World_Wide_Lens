@@ -1,9 +1,10 @@
 import { Lobster } from 'next/font/google';
 import React from 'react'
-import Instagram from './assets/social/Instagram';
-import LinkedIn from './assets/social/LinkedIn';
-import GitHub from './assets/social/Github';
-import Facebook from './assets/social/Facebook';
+import Instagram from '../public/assets/instagram.svg';
+import LinkedIn from '../public/assets/linkedin.svg';
+import GitHub from '../public/assets/github.svg';
+import Facebook from '../public/assets/facebook.svg';
+import Image from 'next/image';
 
 const lobster = Lobster({ subsets: ["latin"], weight: "400" });
 export default function Footer() {
@@ -14,16 +15,16 @@ export default function Footer() {
       </h1>
       <ul className='pb-4 flex gap-3'>
         <a className='flex items-center justify-center' href="https://www.instagram.com/alexsaraev.15/" target="_blank">
-          <Instagram className='w-4 sm:w-6 md:w-8 fill-white' />
+          <Image src={Instagram} alt="Instagram" className='w-4 sm:w-6 md:w-8' />
         </a>
         <a className='flex items-center justify-center' href="https://www.linkedin.com/in/saraev-alexandru-5a3baa265/" target="_blank">
-          <LinkedIn className='w-6 sm:w-8 md:w-11 fill-white' />
+          <Image src={LinkedIn} alt="Instagram" className='w-6 sm:w-8 md:w-11' />
         </a>
         <a className='flex items-center justify-center' href="https://github.com/AlexSaraev020?tab=repositories" target="_blank">
-          <GitHub className='w-4 sm:w-6 md:w-8 fill-white' />
+          <Image src={GitHub} alt="Instagram" className='w-4 sm:w-6 md:w-8' />
         </a>
         <a className='flex items-center justify-center' href="https://www.facebook.com/alexandru.saraev.3/" target="_blank">
-          <Facebook className='w-6 sm:w-8 md:w-11 fill-white' />
+          <Image src={Facebook}  alt="Instagram" className='w-6 sm:w-8 md:w-11 fill-white' />
         </a>
       </ul>
       <p className="text-white text-center text-xs sm:text-base md:text-lg max-w-64 sm:max-w-96">
