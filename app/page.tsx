@@ -1,11 +1,11 @@
-import LinkButton from "@/components/Link";
+import LinkButton from "@/components/LinkButton";
 import Main from "@/components/Main";
 import NewsCard from "@/components/news/NewsCard";
 import NewsHeroCard from "@/components/news/NewsHeroCard";
 import News from "@/public/images/news.jpg"
 import Image from "next/image";
 
-export default function Home() {
+export default function Page() {
   const data = [
     {
       headline: "Mrs",
@@ -142,13 +142,15 @@ export default function Home() {
   ]
   return (
     <Main >
-      <div className="flex flex-col md:flex-row h-full items-center gap-4 p-4 justify-center">
+      <div className="flex flex-col lg:flex-row h-full items-start gap-4 p-1 sm:p-4 justify-start">
         <NewsHeroCard News={News} data={data} />
-        <ul className="flex flex-wrap md:flex-row flex-none w-6/12 md:w-5/12 gap-4 overflow-y-scroll max-h-screen">
-          <NewsCard News={News} data={data} />
-          <NewsCard News={News} data={data} />
-          <NewsCard News={News} data={data} />
-
+        <ul className="flex flex-col w-full lg:w-4/12 gap-4 overflow-y-scroll max-h-screen scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-600 lg:px-4 ">
+          <NewsCard News={News} data={data} details />
+          <NewsCard News={News} data={data} details />
+          <NewsCard News={News} data={data} details />
+          <NewsCard News={News} data={data} details />
+          <NewsCard News={News} data={data} details />
+          <NewsCard News={News} data={data} details />
         </ul>
       </div>
     </Main>

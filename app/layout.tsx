@@ -21,7 +21,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={'min-h-screen flex flex-col bg-zinc-300 grayscale ' + newsreader.className}>
+      <body className={'min-h-screen w-full flex flex-col bg-zinc-300 grayscale ' + newsreader.className}>
         <Header />
         {children}
         <Footer />

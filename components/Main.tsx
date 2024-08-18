@@ -6,7 +6,7 @@ interface MainProps {
 export default function Main(props: MainProps) {
     const { children } = props
     return (
-        <main className="flex-1">
+        <main className="flex-1 ">
             {children}
         </main>
     )

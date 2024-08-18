@@ -9,7 +9,7 @@ import Image from 'next/image';
 const lobster = Lobster({ subsets: ["latin"], weight: "400" });
 export default function Footer() {
   return (
-    <footer className="w-full flex flex-col items-center justify-center bg-black p-4">
+    <footer className="w-full h-fit flex flex-col items-center justify-center bg-black p-4">
       <h1 className={'text-white text-2xl sm:text-3xl md:text-4xl p-4 ' + lobster.className}>
         World Wide Lens
       </h1>
@@ -24,7 +24,7 @@ export default function Footer() {
           <Image src={GitHub} alt="Instagram" className='w-4 sm:w-6 md:w-8' />
         </a>
         <a className='flex items-center justify-center' href="https://www.facebook.com/alexandru.saraev.3/" target="_blank">
-          <Image src={Facebook}  alt="Instagram" className='w-6 sm:w-8 md:w-11 fill-white' />
+          <Image src={Facebook} alt="Instagram" className='w-6 sm:w-8 md:w-11 fill-white' />
         </a>
       </ul>
       <p className="text-white text-center text-xs sm:text-base md:text-lg max-w-64 sm:max-w-96">
