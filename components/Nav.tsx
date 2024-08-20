@@ -12,23 +12,24 @@ const lobster = Lobster({ subsets: ["latin"], weight: "400" });
 export default function Nav() {
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const [searchText , setSearchText] = useState<string>("")
+    const [searchText, setSearchText] = useState<string>("")
     const router = useRouter();
-    
+
+    //focus search input
     useEffect(() => {
         if (isSearchActive && searchInputRef.current) {
             searchInputRef.current.focus();
         }
     }, [isSearchActive]);
 
-    const handleMouseDown = (e:React.MouseEvent) => {
+    const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault();
-        if(searchInputRef.current){
+        if (searchInputRef.current) {
             searchInputRef.current.focus()
         }
     }
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
             if (searchText) {
@@ -63,12 +64,12 @@ export default function Nav() {
                                 className="p-1 focus:outline-none bg-zinc-400 placeholder-zinc-900 text-black font-semibold "
                                 onBlur={() => setIsSearchActive(false)}
                             />
-                            <button  className='text-black absolute right-0' onMouseDown={handleMouseDown}>
+                            <button className='text-black absolute right-0' onMouseDown={handleMouseDown}>
                                 <Image src={SearchButton} alt="Search" className='w-8' />
                             </button>
                         </form>
                     ) : (
-                        <button onClick={() => setIsSearchActive(true)}>
+                        <button type='submit' onClick={() => setIsSearchActive(true)}>
                             Search
                         </button>
                     )}

@@ -7,11 +7,12 @@ import NewsCard from './NewsCard';
 interface Props {
   data: NewsItem;
   details?: boolean;
+  allAricles?: NewsItem[];
 }
 
-export default function NewsHeroCard({ data , details }: Props) {
+export default function NewsHeroCard({ data , details , allAricles }: Props) {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center gap-4 mx-auto">
+    <div className="flex-1 flex  flex-col items-center justify-center gap-4 mx-auto">
       <div className='flex flex-col gap-4 border-2 border-black p-1 sm:p-4 bg-zinc-400'>
         <div className="w-full">
           <Image
@@ -19,7 +20,7 @@ export default function NewsHeroCard({ data , details }: Props) {
             height={500}
             width={200}
             alt={data.title}
-            className="w-full h-80 object-cover"
+            className="w-full h-auto object-cover"
           />
         </div>
         <div className="w-full">
@@ -40,9 +41,9 @@ export default function NewsHeroCard({ data , details }: Props) {
         </div>
       </div>
       <div className='flex-1 flex flex-col md:flex-row gap-4 w-full'>
-      <NewsCard key={data.title} data={data} index={1}/>
-      <NewsCard key={data.title} data={data} index={2}/>
-      <NewsCard key={data.title} data={data} index={3}/>
+      {allAricles?.slice(1,4).map((article: NewsItem) => (
+        <NewsCard key={article.title} data={article} />
+      ))}
       </div>
     </div>
   );
