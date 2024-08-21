@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from 'react'
-import LinkButton from './LinkButton'
+import LinkButton from './buttons/LinkButton'
 import Image from 'next/image';
 import { Lobster } from 'next/font/google';
 import SearchButton from '@/public/assets/search.svg'
@@ -53,7 +53,7 @@ export default function Nav() {
                         Home
                     </LinkButton>
                 </li>
-                <li>
+                <li className='p-2'>
                     {isSearchActive ? (
                         <form className='relative' onSubmit={handleSubmit}>
                             <input
@@ -61,15 +61,15 @@ export default function Nav() {
                                 ref={searchInputRef}
                                 type="text"
                                 placeholder="Search..."
-                                className="p-1 focus:outline-none bg-zinc-400 placeholder-zinc-900 text-black font-semibold "
+                                className="p-1 focus:outline-none bg-zinc-400 placeholder-zinc-900 text-black font-semibold animate-fade "
                                 onBlur={() => setIsSearchActive(false)}
                             />
-                            <button className='text-black absolute right-0' onMouseDown={handleMouseDown}>
-                                <Image src={SearchButton} alt="Search" className='w-8' />
+                            <button className='text-black absolute right-0 px-1 h-full' onMouseDown={handleMouseDown}>
+                                <Image src={SearchButton} alt="Search" className='w-6' />
                             </button>
                         </form>
                     ) : (
-                        <button type='submit' onClick={() => setIsSearchActive(true)}>
+                        <button className='text-md sm:text-lg md:text-xl' type='submit' onClick={() => setIsSearchActive(true)}>
                             Search
                         </button>
                     )}

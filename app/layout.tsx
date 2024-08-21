@@ -3,6 +3,8 @@ import { Newsreader } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Image from "next/image";
+
 const newsreader = Newsreader({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
