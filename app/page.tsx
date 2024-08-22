@@ -5,7 +5,6 @@ import { getAllNews } from "./api/route";
 
 export default async function Page() {
   const data = await getAllNews();
-
   return (
     <Main>
       <div className="flex z-50 flex-col lg:flex-row h-full w-full items-start gap-4 p-1 sm:p-4 justify-start">

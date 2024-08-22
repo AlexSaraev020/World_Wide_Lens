@@ -12,6 +12,16 @@ export async function getAllNews() {
     }
 }
 
+export async function getStaticProps() {
+    const news = await getAllNews();
+
+    return {
+        props: {
+            news,
+        },
+        revalidate: 3600, // revalidare la fiecare ora
+    };
+}
 
 export async function getNewsByQuery(query: string) {
     try {
