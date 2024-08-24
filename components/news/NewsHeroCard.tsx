@@ -14,13 +14,15 @@ export default function NewsHeroCard({ data, details, allAricles }: Props) {
   return (
     <div className="flex flex-col z-40 gap-4 w-full">
       <div className='flex flex-col w-full gap-4 border-2 border-black p-1 sm:p-4 bg-zinc-400'>
-        <Image
-          src={data.urlToImage}
-          height={500}
-          width={200}
-          alt={data.title}
-          className="w-full h-auto object-cover"
-        />
+        {data.image_url &&
+          <Image
+            src={data.image_url}
+            height={500}
+            width={200}
+            alt={data.title}
+            className="w-full h-auto object-cover"
+          />
+        }
         <div className="w-full">
           <h1 className="text-4xl sm:text-5xl md:text-5xl font-semibold text-center md:text-left">
             {data.title}
@@ -31,7 +33,7 @@ export default function NewsHeroCard({ data, details, allAricles }: Props) {
             </p>
           }
           <h2 className="font-bold italic">
-            {data.author} - {new Date(data.publishedAt).toLocaleDateString()}
+            {data.creator} - {new Date(data.pubDate).toLocaleDateString()}
           </h2>
           <LinkButton href={`/news/${data.title.replaceAll(/\s+/g, '-').toLocaleLowerCase()}`}>
             Read more

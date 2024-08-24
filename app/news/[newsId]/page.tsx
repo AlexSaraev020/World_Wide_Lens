@@ -12,7 +12,7 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   const data = await getNewsByQuery(params.newsId)
-  const myArticle = data.articles[0]
+  const myArticle = data.results[0]
   console.log(data)
   if (!myArticle) {
     return (
@@ -30,10 +30,10 @@ export default async function Page({ params }: Props) {
     <Main>
       <div className='border-l-2 w-11/12 md:w-11/12 border-r-2 bg-zinc-400 text-black border-black min-h-screen flex justify-center'>
         <div className='flex  h-fit items-center justify-center flex-col p-1 md:p-2 py-10 gap-2 '>
-          {myArticle?.urlToImage &&
+          {myArticle?.image_url &&
             <Image
-              src={myArticle?.urlToImage}
-              alt={myArticle?.urlToImage}
+              src={myArticle?.image_url}
+              alt={myArticle?.image_url}
               width={400}
               height={300}
               className='w-full md:w-8/12 object-cover'
@@ -41,15 +41,15 @@ export default async function Page({ params }: Props) {
           }
           <div className='flex relative flex-col gap-2 w-full md:w-9/12'>
             <h1 className='text-2xl sm:text-5xl md:text-6xl font-semibold md:font-medium'>{myArticle?.title}</h1>
-            <h2 className='text-md sm:text-lg md:text-xl font-extrabold italic'>{myArticle?.author}</h2>
+            <h2 className='text-md sm:text-lg md:text-xl font-extrabold italic'>{myArticle?.creator}</h2>
             <h3 className='text-md sm:text-md md:text-3xl font-medium italic'>{myArticle?.description}</h3>
             <p className='text-sm md:text-xl font-medium'>{myArticle?.content}</p>
-            <a href={myArticle?.url}
+            <a href={myArticle?.article_id}
               target='_blank'
               className='border-2 border-black p-1 text-sm md:text-xl focus:outline-none text-white bg-zinc-700 font-bold w-fit'>
               Read entire article
             </a>
-            <h3 className='absolute bottom-0 right-2 font-bold italic text-xl'>{new Date(myArticle?.publishedAt).toLocaleDateString()}</h3>
+            <h3 className='absolute bottom-0 right-2 font-bold italic text-xl'>{new Date(myArticle?.pubDate).toLocaleDateString()}</h3>
           </div>
         </div>
       </div>

@@ -1,10 +1,9 @@
-import { AllNews } from '../types/news';
-
+import { AllNews, NewsItem } from '../types/news';
+const url = process.env.NEXT_PUBLIC_API_URL
+const key = process.env.PRIVATE_KEY
 
 export async function getAllNews() {
     try {
-        const url = process.env.NEXT_PUBLIC_API_URL
-        const key = process.env.PRIVATE_KEY
         const response = await fetch(`${url}${key}`, {
             next: {
                 revalidate: 3600
@@ -14,16 +13,14 @@ export async function getAllNews() {
         return data as AllNews
     } catch (error:any) {
         console.error(error.message);
-        return { articles: [] };
+        return { results: [] };
     }
 }
 
 export async function getNewsByQuery(query: string) {
     const encodedQuery = encodeURIComponent(query)
     try {
-        const url = process.env.NEXT_PUBLIC_API_URL_ROOT
-        const key = process.env.PRIVATE_KEY
-        const response = await fetch(`${url}?q=${encodedQuery}&apiKey=${key}`,{
+        const response = await fetch(`${url}${key}&q=${encodedQuery}`,{
             next:{
                 revalidate: 30
             }
@@ -32,6 +29,22 @@ export async function getNewsByQuery(query: string) {
         return data as AllNews
     } catch (error:any) {
         console.error(error.message);
-        return { articles: [] };
+        return { results: [] };
+    }
+}
+
+export async function getNewsById(id: string) {
+    const encodedId = encodeURIComponent(id)
+    try {
+        const response = await fetch(`${url}${key}&id=${encodedId}`,{
+            next:{
+                revalidate: 30
+            }
+        });
+        const data = await response.json();
+        return data as NewsItem
+    } catch (error:any) {
+        console.error(error.message);
+        return { results: [] };
     }
 }
