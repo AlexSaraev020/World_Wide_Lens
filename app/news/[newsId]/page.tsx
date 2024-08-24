@@ -1,4 +1,5 @@
 import { getNewsByQuery } from '@/app/api/route'
+import LinkButton from '@/components/buttons/LinkButton'
 import Main from '@/components/Main'
 import Image from 'next/image'
 import React from 'react'
@@ -12,6 +13,19 @@ interface Props {
 export default async function Page({ params }: Props) {
   const data = await getNewsByQuery(params.newsId)
   const myArticle = data.articles[0]
+  console.log(data)
+  if (!myArticle) {
+    return (
+      <Main>
+        <div className='flex-1 flex flex-col w-full items-center justify-center'>
+          <h1 className='text-3xl font-bold'>Article Not Found</h1>
+          <LinkButton href='/'>
+            Go Back
+          </LinkButton>
+        </div>
+      </Main>
+    )
+  }
   return (
     <Main>
       <div className='border-l-2 w-11/12 md:w-11/12 border-r-2 bg-zinc-400 text-black border-black min-h-screen flex justify-center'>
@@ -36,7 +50,6 @@ export default async function Page({ params }: Props) {
               Read entire article
             </a>
             <h3 className='absolute bottom-0 right-2 font-bold italic text-xl'>{new Date(myArticle?.publishedAt).toLocaleDateString()}</h3>
-
           </div>
         </div>
       </div>
