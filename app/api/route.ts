@@ -4,7 +4,7 @@ const key = process.env.PRIVATE_KEY
 
 export async function getAllNews() {
     try {
-        const response = await fetch(`${url}${key}`, {
+        const response = await fetch(`${url}${key}&country=us`, {
             next: {
                 revalidate: 3600
             }
@@ -42,9 +42,9 @@ export async function getNewsById(id: string) {
             }
         });
         const data = await response.json();
-        return data as NewsItem
+        return data as AllNews
     } catch (error:any) {
         console.error(error.message);
-        return { results: [] };
+        return {results: []};
     }
 }
