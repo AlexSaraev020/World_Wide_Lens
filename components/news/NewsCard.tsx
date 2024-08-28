@@ -9,13 +9,13 @@ interface Props {
 }
 export default function NewsCard({ data, details }: Props) {
     return (
-        <li className="relative flex flex-col w-full gap-4 bg-zinc-400 p-1 sm:p-2 border-2 border-black">
+        <li className="relative flex flex-col md:max-w-md w-full shrink-0 gap-4 bg-zinc-400 p-1 sm:p-2 border-2 border-black">
             <Image
                 src={data.image_url ? data.image_url : Placeholder}
                 alt={data.title ? data.title : 'no photo available'}
                 width={400}
                 height={300}
-                className="w-full h-full object-cover" />
+                className="w-full h-60 object-cover" />
 
             <div className='w-fit'>
                 <h1 className="text-xl font-bold sm:text-lg md:text-xl text-center md:text-left">{data.title}</h1>

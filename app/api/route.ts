@@ -4,7 +4,7 @@ const key = process.env.PRIVATE_KEY
 
 export async function getAllNews() {
     try {
-        const response = await fetch(`${url}${key}&country=us`, {
+        const response = await fetch(`${url}${key}&country=us&image=1`, {
             next: {
                 revalidate: 3600
             }

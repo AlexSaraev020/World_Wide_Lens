@@ -10,7 +10,7 @@ export default function NewsList(props: NewsListProps) {
     const [showMore, setShowMore] = useState<number>(10)
     
     return (
-        <ul className='flex flex-col z-10 gap-4 w-full md:w-8/12 lg:w-6/12'>
+        <ul className='flex flex-col z-10 gap-4 w-full justify-center items-center'>
             {props.data.results.slice(0,showMore).map((article:NewsItem) => (
                 <NewsCard key={article.title} data={article} />
             ))}

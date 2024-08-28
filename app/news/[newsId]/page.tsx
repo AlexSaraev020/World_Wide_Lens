@@ -35,7 +35,7 @@ export default async function Page({ params }: Props) {
               alt={data.results[0]?.image_url}
               width={400}
               height={300}
-              className='w-full md:w-8/12 object-cover'
+              className='w-full md:w-8/12 md:h-screen object-cover'
             />
           }
           <div className='flex relative flex-col gap-2 w-full md:w-9/12'>
