@@ -14,7 +14,7 @@ export default function Nav() {
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const [searchText, setSearchText] = useState<string>("")
-    const [filterActive , setFilterActive] = useState<boolean>(false)
+    const [filterActive, setFilterActive] = useState<boolean>(false)
     const router = useRouter();
 
     //focus search input
@@ -82,7 +82,7 @@ export default function Nav() {
                     </button>
                 </li>
             </ul>
-{filterActive ? <Filter /> : null}
+            {filterActive ? <Filter /> : null}
         </nav>
     );
 }

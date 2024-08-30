@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+"use client"
+import React, { use, useState } from 'react'
+import LinkButton from './buttons/LinkButton';
 
 export default function Filter() {
     const [activeFilter, setActiveFilter] = useState<number | null>(null);
+    const [category, setCategory] = useState<{ id: number; name: string; value: string } | null>(null);
+    const [country, setCountry] = useState<{ id: number; name: string; value: string } | null>(null);
+    const [language, setLanguage] = useState<{ id: number; name: string; value: string } | null>(null);
+
     const filters = [
         {
             id: 1, name: 'Country', countries: [
@@ -50,57 +56,89 @@ export default function Filter() {
         },
         {
             id: 3, name: 'Language', languages: [
-                { id: 1, value: 'fr', language: 'French' },
-                { id: 2, value: 'en', language: 'English' },
-                { id: 3, value: 'fr', language: 'French' },
-                { id: 4, value: 'de', language: 'German' },
-                { id: 5, value: 'it', language: 'Italian' },
-                { id: 6, value: 'zh', language: 'Chinese' },
-                { id: 7, value: 'ro', language: 'Romanian' },
-                { id: 8, value: 'es', language: 'Spanish' },
-                { id: 9, value: 'ru', language: 'Russian' },
-                { id: 10, value: 'ja', language: 'Japanese' },
-                { id: 11, value: 'ko', language: 'Korean' },
-                { id: 12, value: 'ar', language: 'Arabic' },
-                { id: 13, value: 'hi', language: 'Hindi' },
-                { id: 14, value: 'pt', language: 'Portuguese' },
-                { id: 15, value: 'tr', language: 'Turkish' },
-                { id: 16, value: 'pl', language: 'Polish' },
-                { id: 17, value: 'nl', language: 'Dutch' },
-                { id: 18, value: 'uk', language: 'Ukrainian' },
+                { id: 1, name: 'French', value: 'fr' },
+                { id: 2, name: 'English', value: 'en' },
+                { id: 3, name: 'French', value: 'fr' },
+                { id: 4, name: 'German', value: 'de' },
+                { id: 5, name: 'Italian', value: 'it' },
+                { id: 6, name: 'Chinese', value: 'zh' },
+                { id: 7, name: 'Romanian', value: 'ro' },
+                { id: 8, name: 'Spanish', value: 'es' },
+                { id: 9, name: 'Russian', value: 'ru' },
+                { id: 10, name: 'Japanese', value: 'ja' },
+                { id: 11, name: 'Korean', value: 'ko' },
+                { id: 12, name: 'Arabic', value: 'ar' },
+                { id: 13, name: 'Hindi', value: 'hi' },
+                { id: 14, name: 'Portuguese', value: 'pt' },
+                { id: 15, name: 'Turkish', value: 'tr' },
+                { id: 16, name: 'Polish', value: 'pl' },
+                { id: 17, name: 'Dutch', value: 'nl' },
+                { id: 18, name: 'Ukrainian', value: 'uk' },
             ]
         },
     ]
     const handleFilterClick = (id: number) => {
+        if (id === 1 && country) {
+            setCountry(null);
+            return
+        }
+        if (id === 2 && category) {
+            setCategory(null);
+            return
+        }
+        if (id === 3 && language) {
+            setLanguage(null);
+            return
+        }
+
         setActiveFilter(activeFilter === id ? null : id);
     };
 
+
+    const handleLanguageClick = (lang: { id: number; name: string; value: string }) => {
+        setLanguage(lang);
+        setActiveFilter(null);
+    };
+
+    const handleCategoryClick = (cat: { id: number; name: string; value: string }) => {
+        setCategory(cat);
+        setActiveFilter(null);
+    };
+
+    const handleCountryClick = (ctry: { id: number; name: string; value: string }) => {
+        setCountry(ctry);
+        setActiveFilter(null);
+    };
+
     return (
-        <ul className='flex text-white gap-4'>
+        <ul className='flex text-white gap-1 sm:gap-4 p-2'>
             {filters.map((filter) => (
-                <li key={filter.id} className='p-2 font-semibold text-xl animate-fade'>
+                <li key={filter.id} className='p-2 relative font-semibold text-md sm:text-lg md:text-xl animate-fade'>
                     <button onClick={() => handleFilterClick(filter.id)}>
-                        {filter.name}
+                        {filter.id === 1 && country ? country.name :
+                            filter.id === 2 && category ? category.name :
+                                filter.id === 3 && language ? language.name :
+                                    filter.name}
                     </button>
                     {activeFilter === filter.id &&
-                        <ul className='flex flex-col w-fit h-40 overflow-y-auto scrollbar-thumb-purple-100 scrollbar-thin'>
+                        <ul className='flex top-12 left-0 absolute z-20 bg-black flex-col items-start w-auto text-nowrap h-40 overflow-y-scroll scrollbar-thumb-zinc-400 scrollbar-track-zinc-800 pr-4 scrollbar-thin p-2'>
                             {activeFilter === filter.id && filter.languages?.map((language) => (
                                 <li key={language.id}>
-                                    <button className='px-4 py-1'>
-                                        {language.language}
+                                    <button className='px-4 py-1' onClick={() => handleLanguageClick(language)}>
+                                        {language.name}
                                     </button>
                                 </li>
                             ))}
                             {activeFilter === filter.id && filter.countries?.map((country) => (
                                 <li key={country.id}>
-                                    <button>
+                                    <button onClick={() => handleCountryClick(country)}>
                                         {country.name}
                                     </button>
                                 </li>
                             ))}
                             {activeFilter === filter.id && filter.categories?.map((category) => (
                                 <li key={category.id}>
-                                    <button>
+                                    <button onClick={() => handleCategoryClick(category)}>
                                         {category.name}
                                     </button>
                                 </li>
@@ -109,10 +147,20 @@ export default function Filter() {
                     }
                 </li>
             ))}
-            <li>
-                <button>
+            <li className='animate-fade flex items-center justify-center font-bold italic'>
+                <LinkButton
+                    nav
+                    href={{
+                        pathname: '/news/search/',
+                        query: {
+                            ...(country ? { country: country.value } : {}),
+                            ...(category ? { category: category.value } : {}),
+                            ...(language ? { language: language.value } : {}),
+                        }
+                    }}>
+                    Results
+                </LinkButton>
 
-                </button>
             </li>
         </ul>
     )

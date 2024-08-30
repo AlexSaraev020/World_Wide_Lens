@@ -36,11 +36,7 @@ export async function getNewsByQuery(query: string) {
 export async function getNewsById(id: string) {
     const encodedId = encodeURIComponent(id)
     try {
-        const response = await fetch(`${url}${key}&id=${encodedId}`,{
-            next:{
-                revalidate: 30
-            }
-        });
+        const response = await fetch(`${url}${key}&id=${encodedId}`);
         const data = await response.json();
         return data as AllNews
     } catch (error:any) {

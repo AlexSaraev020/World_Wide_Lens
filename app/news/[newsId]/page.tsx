@@ -17,7 +17,7 @@ export default async function Page({ params }: Props) {
       <Main>
         <div className='flex-1 flex flex-col w-full items-center justify-center'>
           <h1 className='text-3xl font-bold'>Article Not Found</h1>
-          <h2 className='text-3xl font-bold'>Too many api requests</h2>
+          <h2 className='text-3xl font-bold'>An error occured</h2>
           <LinkButton href='/'>
             Back to homepage
           </LinkButton>
