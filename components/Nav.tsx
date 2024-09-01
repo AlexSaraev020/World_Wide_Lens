@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Lobster } from 'next/font/google';
 import SearchButton from '@/public/assets/search.svg'
 import { useRouter } from 'next/navigation';
-import Filter from './Filter';
 
 
 const lobster = Lobster({ subsets: ["latin"], weight: "400" });
@@ -14,7 +13,6 @@ export default function Nav() {
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const [searchText, setSearchText] = useState<string>("")
-    const [filterActive, setFilterActive] = useState<boolean>(false)
     const router = useRouter();
 
     //focus search input
@@ -76,13 +74,7 @@ export default function Nav() {
                         </button>
                     )}
                 </li>
-                <li>
-                    <button className='text-md sm:text-lg md:text-xl' onClick={() => setFilterActive(!filterActive)}>
-                        Filter
-                    </button>
-                </li>
             </ul>
-            {filterActive ? <Filter /> : null}
         </nav>
     );
 }

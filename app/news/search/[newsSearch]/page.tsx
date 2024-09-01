@@ -11,6 +11,11 @@ interface Props {
 
 export default async function Page(props: Props) {
     const data = await getNewsByQuery(props.params.newsSearch)
+    if (!data) {
+        return (
+           <p>Too many api request, please try again later</p>
+        )
+    }
     return (
         <Main>
             <div className='flex-1 flex flex-col max-w-full w-full items-center justify-center p-4'>
@@ -18,6 +23,5 @@ export default async function Page(props: Props) {
                 <NewsList data={data} />    
             </div>
         </Main>
-
     )
 }

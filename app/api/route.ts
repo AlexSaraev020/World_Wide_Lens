@@ -4,14 +4,14 @@ const key = process.env.PRIVATE_KEY
 
 export async function getAllNews() {
     try {
-        const response = await fetch(`${url}${key}&country=us&image=1`, {
+        const response = await fetch(`${url}${key}&language=en&image=1`, {
             next: {
                 revalidate: 3600
             }
         });
         const data = await response.json();
         return data as AllNews
-    } catch (error:any) {
+    } catch (error: any) {
         console.error(error.message);
         return { results: [] };
     }
@@ -20,14 +20,14 @@ export async function getAllNews() {
 export async function getNewsByQuery(query: string) {
     const encodedQuery = encodeURIComponent(query)
     try {
-        const response = await fetch(`${url}${key}&q=${encodedQuery}`,{
-            next:{
+        const response = await fetch(`${url}${key}&q=${encodedQuery}&language=en&image=1`, {
+            next: {
                 revalidate: 30
             }
         });
         const data = await response.json();
         return data as AllNews
-    } catch (error:any) {
+    } catch (error: any) {
         console.error(error.message);
         return { results: [] };
     }
@@ -39,8 +39,8 @@ export async function getNewsById(id: string) {
         const response = await fetch(`${url}${key}&id=${encodedId}`);
         const data = await response.json();
         return data as AllNews
-    } catch (error:any) {
+    } catch (error: any) {
         console.error(error.message);
-        return {results: []};
+        return { results: [] };
     }
 }
