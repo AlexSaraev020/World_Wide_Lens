@@ -1,7 +1,7 @@
 import Main from "@/components/Main";
 import NewsCard from "@/components/news/NewsCard";
 import NewsHeroCard from "@/components/news/NewsHeroCard";
-import { getAllNews } from "./api/route";
+import { getAllNews } from "./actions/route";
 
 export default async function Page() {
   const data = await getAllNews();

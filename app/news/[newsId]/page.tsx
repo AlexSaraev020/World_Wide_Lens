@@ -1,4 +1,4 @@
-import { getNewsById } from '@/app/api/route'
+import { getNewsById } from '@/app/actions/route'
 import LinkButton from '@/components/buttons/LinkButton'
 import Main from '@/components/Main'
 import Image from 'next/image'
