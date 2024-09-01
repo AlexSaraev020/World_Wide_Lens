@@ -1,4 +1,4 @@
-import { getNewsByQuery } from '@/app/actions/route'
+import { getNewsByQuery } from '@/app/actions/actions'
 import Main from '@/components/Main';
 import NewsList from '@/components/news/NewsList'
 import React from 'react'
