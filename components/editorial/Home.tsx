@@ -82,7 +82,10 @@ export default async function Home({ section }: { section?: string }) {
           </p>
         </div>
 
-        <ul className="mt-4 grid grid-cols-1 gap-y-3 md:grid-cols-12 md:gap-x-[var(--gutter)] md:gap-y-0">
+        {/* items-start: a grid row is as tall as its tallest card, and a card
+            with two lines of standfirst was being stretched to the height of a
+            card with eight — the extra was empty paper inside the short one. */}
+        <ul className="mt-4 grid grid-cols-1 gap-y-3 md:grid-cols-12 md:items-start md:gap-x-[var(--gutter)] md:gap-y-0">
           {cards.map((story, n) => (
             <StoryCard
               key={story.slug}

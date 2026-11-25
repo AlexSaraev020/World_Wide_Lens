@@ -2,11 +2,13 @@ import Link from 'next/link'
 import StoryRow from './StoryRow'
 import { stamp, type Story } from '../../data/stories'
 
-/* A brief arrives with a standfirst and nothing else, so the standfirst is the
-   filing. Related filings arrive from the page, which already holds the wire. */
-export default function StoryPage({ story, also }: { story: Story; also: Story[] }) {
-  const paras = story.body.length ? story.body : [story.standfirst]
+/* Set like a page of newsprint: the headline across the full measure, the
+   photograph on the left with its credit under it, the standfirst and the
+   source block beside it, then the filing across the whole width in columns.
 
+   The plate is capped at the width the outlet actually filed, so it is never
+   blown up — a 700-wide picture shown in a 792-wide column is a blurry picture. */
+export default function StoryPage({ story, also }: { story: Story; also: Story[] }) {
   return (
     <article className="px-[var(--gutter)] pt-6">
       <p className="folio-micro">
@@ -22,10 +24,7 @@ export default function StoryPage({ story, also }: { story: Story; also: Story[]
         Filed {stamp(story.published)}
       </p>
 
-      <div className="mt-3 grid gap-x-[var(--gutter)] gap-y-4 md:grid-cols-12">
-        <h1 className="type-lead font-print break-words md:col-span-9">{story.headline}</h1>
-        <p className="standfirst md:col-span-3 md:pt-2">{story.standfirst}</p>
-      </div>
+      <h1 className="type-lead font-print mt-3 break-words">{story.headline}</h1>
 
       <div className="rule-double mt-6 pt-3">
         <p className="font-folio flex flex-wrap items-baseline gap-x-2">
@@ -41,34 +40,32 @@ export default function StoryPage({ story, also }: { story: Story; also: Story[]
         </p>
       </div>
 
-      {story.image ? (
-        <figure className="mt-6 grid gap-x-[var(--gutter)] gap-y-2 md:grid-cols-12">
-          <img
-            src={story.image.src}
-            alt={story.image.alt}
-            width={story.image.width}
-            height={story.image.height}
-            className="photo md:col-span-8"
-          />
-          <figcaption className="folio-micro md:col-span-4 md:pt-1">
-            {story.link ? 'Photograph filed with this report' : 'Illustrative photograph — not a depiction of this filing.'}
-            <span className="mt-2 block text-[var(--fg)]">{story.image.caption}</span>
-          </figcaption>
-        </figure>
-      ) : null}
+      <div className="mt-6 grid gap-x-[var(--gutter)] gap-y-6 md:grid-cols-12">
+        {story.image ? (
+          <figure className="md:col-span-5">
+            <img
+              src={story.image.src}
+              alt={story.image.alt}
+              width={story.image.width}
+              height={story.image.height}
+              className="photo"
+              style={{ maxWidth: story.image.width }}
+            />
+            <figcaption className="folio-micro mt-1">
+              {story.link ? 'Photograph filed with this report' : 'Illustrative photograph — not a depiction of this filing.'}
+              <span className="mt-1 block text-[var(--fg)]">{story.image.caption}</span>
+            </figcaption>
+          </figure>
+        ) : null}
 
-      <div className="mt-8 grid gap-x-[var(--gutter)] gap-y-8 md:grid-cols-12">
-        <div className="body-print print-columns md:col-span-8">
-          {paras.map((p, n) => (
-            <p key={n} className={n === 0 ? 'drop-cap' : undefined}>
-              {p}
-            </p>
-          ))}
-        </div>
-
-        <aside className="md:col-span-4 md:col-start-9">
+        {/* The margin column carries the standfirst, the source block and the
+            related filings. Left with only the first two it came up hundreds of
+            pixels shorter than the plate beside it and the page showed a hole
+            beside every photograph. */}
+        <aside className={story.image ? 'md:col-span-7' : 'md:col-span-12'}>
+          <p className="standfirst">{story.standfirst}</p>
           {story.pull ? (
-            <blockquote className="pull font-print">{story.pull}</blockquote>
+            <blockquote className="pull font-print mt-5">{story.pull}</blockquote>
           ) : null}
           <p className="folio-micro mt-5 border-t border-[var(--rule-now)] pt-3">
             Filed to the {story.sectionName} desk
@@ -90,22 +87,41 @@ export default function StoryPage({ story, also }: { story: Story; also: Story[]
               .
             </p>
           ) : null}
+
+          <h2 className="section-mark inline-block mt-6">Also on the wire</h2>
+          <ul className="mt-2">
+            {also.map((s, n) => (
+              <StoryRow key={s.slug} story={s} index={n + 1} />
+            ))}
+          </ul>
         </aside>
       </div>
 
-      <section className="mt-12 border-t-[3px] border-[var(--slug)] pt-5">
-        <h2 className="section-mark">Related filing</h2>
-        <ul className="mt-3 grid grid-cols-1 gap-x-[var(--gutter)] md:grid-cols-12">
-          {also.map((s, n) => (
-            <StoryRow
-              key={s.slug}
-              story={s}
-              index={n + 1}
-              className="md:col-span-4"
-            />
+      {story.body.length ? (
+        <div className="body-print print-columns mt-8">
+          {story.body.map((p, n) => (
+            <p key={n} className={n === 0 ? 'drop-cap' : undefined}>
+              {p}
+            </p>
           ))}
-        </ul>
-      </section>
+        </div>
+      ) : (
+        /* A brief is one sentence and the wire sent nothing else. Saying so is
+           truer than printing the standfirst a second time. */
+        <p className="folio-micro mt-8 border-t-[3px] border-[var(--slug)] pt-3">
+          Filed as a brief: {story.source} sent the headline and one line. The
+          full text is at{' '}
+          <a
+            href={story.link}
+            className="text-[var(--fg)] underline underline-offset-4"
+            rel="noopener noreferrer"
+          >
+            {story.source}
+          </a>
+          .
+        </p>
+      )}
+
     </article>
-  )
+  );
 }
