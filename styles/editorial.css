@@ -84,6 +84,10 @@
     --fg: #fafafa;
     --fg-soft: #d4d4d8;
     --ink-max: #ffffff;
+    /* .ink:hover re-assigns --fg-soft from --ink-2. Left at its light-mode value
+       that hover painted #18181b onto a #09090b page: the standfirst and the
+       folio line vanished. */
+    --ink-2: #d4d4d8;
     --rule-hair: #18181b;
     --rule: #27272a;
     --rule-strong: #3f3f46;

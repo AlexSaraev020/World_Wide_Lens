@@ -36,7 +36,11 @@ export default function StoryCard({
               loading={lead ? 'eager' : 'lazy'}
               className="photo"
             />
-            <span className="folio-micro mt-1 block">Illustrative photograph</span>
+            {/* A live filing carries the outlet's own picture and credit; the
+                fixture's photographs illustrate invented copy. */}
+            <span className="folio-micro mt-1 block">
+              {story.link ? story.image.caption : 'Illustrative photograph'}
+            </span>
           </span>
         ) : null}
 

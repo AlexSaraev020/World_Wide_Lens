@@ -20,9 +20,12 @@ The lead is chosen, not hardcoded: the longest filing among the twelve newest on
 screens render when a feed cannot be read, so the layout never comes back empty. It is labelled as
 placeholder copy wherever it appears.
 
-Photographs are deliberately not pulled from the feeds: the outlets license their pictures to
-themselves. The wire is type and rules. The fixture's photographs are CC-licensed and credited in
-`public/assets/news/credits.json`.
+Each filing carries the photograph the outlet filed with it, printed in grayscale with its own credit
+line under it. BBC puts a 240-wide thumbnail in the feed and its host serves any width under
+`/standard/<n>/`, so the same picture is asked at 768. Guardian signs every width it offers, so the
+largest one in the item is taken and its height comes from the crop box the host names in the path.
+The fixture's photographs are CC-licensed and credited in `public/assets/news/credits.json`, and are
+labelled *Illustrative photograph* because they illustrate invented copy.
 
 ## Run it
 
@@ -64,9 +67,10 @@ The old NewsAPI layer (`app/actions`, `app/news/*`, `components/news/*`) is stil
 is not wired to anything: it needs a key that is not in the tree, and its screens are not the ones the
 site renders.
 
-`next.config.mjs` allows every remote image host. Nothing in the live wire asks for a remote image, so
-it is only load-bearing for the fixture — but it should be narrowed before anything renders a picture
-it did not ship.
+The photographs are hotlinked from the outlets' own image hosts, with their credits printed. That is
+what an RSS reader does; it is not a licence to redistribute pictures at scale, and the two hosts
+(`i.guim.co.uk`, `ichef.bbci.co.uk`) are the only ones the wire asks for. `next.config.mjs` still allows
+every remote host — it should be narrowed to those two.
 
 Reprinted text belongs to the outlets that filed it. This is a personal project that links back to every
 item; it is not licensed to redistribute news at scale.

@@ -51,7 +51,7 @@ export default function StoryPage({ story, also }: { story: Story; also: Story[]
             className="photo md:col-span-8"
           />
           <figcaption className="folio-micro md:col-span-4 md:pt-1">
-            Illustrative photograph — not a depiction of this filing.
+            {story.link ? 'Photograph filed with this report' : 'Illustrative photograph — not a depiction of this filing.'}
             <span className="mt-2 block text-[var(--fg)]">{story.image.caption}</span>
           </figcaption>
         </figure>

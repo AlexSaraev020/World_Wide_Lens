@@ -66,6 +66,41 @@ const paragraphs = (description: string): string[] => {
 const slugOf = (url: string) =>
   url.split('#')[0].split('?')[0].replace(/\/+$/, '').split('/').pop() ?? ''
 
+const num = (attrs: string, name: string) => Number((attrs.match(new RegExp(`${name}="(\\d+)"`)) ?? [])[1])
+const attrUrl = (attrs: string) => decode((attrs.match(/url="([^"]+)"/) ?? [])[1] ?? '')
+
+/* The photograph the outlet filed with the story, at a width a plate can use.
+
+   BBC puts a 240-wide thumbnail in the feed and its host serves any width under
+   /standard/<n>/, so the same picture is asked at 768. Guardian signs every
+   width it offers, so the largest one in the item is taken, and its height comes
+   from the crop box the host names in the path (.../1_0_4998_4000/master/...). */
+function imageOf(item: string, feed: Feed, headline: string): Story['image'] {
+  const credit = plain((item.match(/<media:credit[^>]*>([\s\S]*?)<\/media:credit>/) ?? [])[1] ?? '')
+  const alt = plain((item.match(/<media:description[^>]*>([\s\S]*?)<\/media:description>/) ?? [])[1] ?? '') || headline
+  const caption = credit || feed.source
+
+  const thumb = (item.match(/<media:thumbnail([^>]*)\/?>/) ?? [])[1]
+  if (thumb) {
+    const src = attrUrl(thumb)
+    const w = num(thumb, 'width')
+    const h = num(thumb, 'height')
+    if (!src || !w || !h) return undefined
+    const wide = 768
+    return { src: src.replace(/\/standard\/\d+\//, `/standard/${wide}/`), alt, caption, width: wide, height: Math.round((wide * h) / w) }
+  }
+
+  const best = [...item.matchAll(/<media:content([^>]*)>/g)]
+    .map((m) => ({ src: attrUrl(m[1]), width: num(m[1], 'width') }))
+    .filter((c) => c.src && c.width)
+    .sort((a, b) => b.width - a.width)[0]
+  if (!best) return undefined
+
+  const box = best.src.match(/\/(\d+)_(\d+)_(\d+)_(\d+)\//)
+  const ratio = box ? Number(box[4]) / Number(box[3]) : 0.66
+  return { ...best, alt, caption, height: Math.round(best.width * ratio) }
+}
+
 export function toStory(item: string, feed: Feed): Story | null {
   const published = new Date(field(item, 'pubDate'))
   if (Number.isNaN(published.getTime())) return null
@@ -97,6 +132,7 @@ export function toStory(item: string, feed: Feed): Story | null {
     published: published.toISOString(),
     readMinutes: Math.max(1, Math.round(words / 220)),
     brief: body.length === 0,
+    image: imageOf(item, feed, headline),
     body,
     link,
   }

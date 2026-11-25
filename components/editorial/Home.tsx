@@ -42,7 +42,7 @@ export default async function Home({ section }: { section?: string }) {
                   className="photo"
                 />
                 <figcaption className="folio-micro mt-1">
-                  Illustrative photograph
+                  {lead.link ? lead.image.caption : 'Illustrative photograph'}
                 </figcaption>
               </figure>
             ) : null}
