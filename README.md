@@ -1,40 +1,72 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# World Wide Lens
 
-## Getting Started
+A world news wire set as a newspaper: one item per filing, in the order it was filed, across four
+desks. No colour, no commentary, no ranking — the headline, the standfirst and the opening paragraphs
+as the outlet wrote them, with the time it was filed and a link back to its own page.
 
-First, run the development server:
+## What it is made of
 
-```bash
+`data/wire.ts` reads eight RSS feeds — The Guardian and BBC News, four desks each — and maps every
+item into one `Story` shape. No API key, no quota, no cost: both outlets publish RSS.
+
+The two outlets arrive differently and the layout uses that. The Guardian's `<description>` carries the
+article's opening paragraphs, so those filings arrive with a body and go to the front page and the desk
+rails. BBC's carry one sentence, so they arrive as briefs and go to the **In brief** rail. A filing
+that lands in two of its own feeds is printed once, on the first desk it reaches.
+
+The lead is chosen, not hardcoded: the longest filing among the twelve newest on the world desk.
+
+`data/stories.ts` is the fixture — twelve invented filings with licensed photographs. It is what the
+screens render when a feed cannot be read, so the layout never comes back empty. It is labelled as
+placeholder copy wherever it appears.
+
+Photographs are deliberately not pulled from the feeds: the outlets license their pictures to
+themselves. The wire is type and rules. The fixture's photographs are CC-licensed and credited in
+`public/assets/news/credits.json`.
+
+## Run it
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<http://localhost:3000>. Nothing to configure.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screens
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+| | |
+|---|---|
+| Front page | nameplate, the lead filing, the front grid (seven cards, deliberately uneven spans), Latest filing, In brief, one rail per desk |
+| Desk | `/?section=world` — the same nameplate, then that desk's filings as cards |
+| Filing | `/story/<slug>` — headline, standfirst, byline, the opening paragraphs set in columns, the desk and source line, the link to the full text, three related filings |
+| Search | `/search?q=` — the query as the page's headline, results as rows, matched terms inverted as ink |
 
-## Learn More
+## Desks
 
-To learn more about Next.js, take a look at the following resources:
+World, Climate, Economy, Europe. Named after the desks the two outlets actually file to; the feeds are
+listed at the top of `data/wire.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Checks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```powershell
+node --experimental-strip-types data/stories.check.ts
+node --experimental-strip-types data/wire.check.ts
+```
 
-## Deploy on Vercel
+The first guards the fixture the screens fall back to and the column counts the front grid is written
+against. The second parses two real feed items — one Guardian, one BBC — captured off the wire, and
+asserts both come out as the same `Story`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Known gaps
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# World_Wide_Lens
->>>>>>> 106363abdb09bde6ae38afe38372d9e1ab4836f1
+The old NewsAPI layer (`app/actions`, `app/news/*`, `components/news/*`) is still in the repository and
+is not wired to anything: it needs a key that is not in the tree, and its screens are not the ones the
+site renders.
+
+`next.config.mjs` allows every remote image host. Nothing in the live wire asks for a remote image, so
+it is only load-bearing for the fixture — but it should be narrowed before anything renders a picture
+it did not ship.
+
+Reprinted text belongs to the outlets that filed it. This is a personal project that links back to every
+item; it is not licensed to redistribute news at scale.

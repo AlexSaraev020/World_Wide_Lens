@@ -1,0 +1,75 @@
+{
+  "note": "Illustrative photographs used in the World Wide Lens redesign mock. Real, licensed images; the events in data/stories.ts are invented placeholder copy. Grayscale rendering is applied in styles/editorial.css via filter, so keep the NC-ND-free licenses if the treatment is kept.",
+  "images": [
+    {
+      "file": "public/assets/news/arctic-zodiac.jpg",
+      "title": "High-arctic Zodiac operations aboard Nuclear Icebreaker, 50 Years of Victory",
+      "author": "Christopher.Michel",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/50979393@N00/19448923980",
+      "fileUrl": "https://live.staticflickr.com/352/19448923980_6b297dd156_b.jpg",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "file": "public/assets/news/coastal-flood.jpg",
+      "title": "Hurricane Sandy Flooding Avenue C 2012",
+      "author": "david_shankbone",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/27865228@N06/8139664029",
+      "fileUrl": "https://live.staticflickr.com/8474/8139664029_ca4cd65295_b.jpg",
+      "width": 1024,
+      "height": 680
+    },
+    {
+      "file": "public/assets/news/container-port.jpg",
+      "title": "Colon - Maersk Ship in Container Port",
+      "author": "roger4336",
+      "license": "CC BY-SA 2.0",
+      "sourcePage": "https://www.flickr.com/photos/24736216@N07/5696972687",
+      "fileUrl": "https://live.staticflickr.com/2396/5696972687_56c76d019f_b.jpg",
+      "width": 1024,
+      "height": 713
+    },
+    {
+      "file": "public/assets/news/volcano-plume.jpg",
+      "title": "NASA's Terra Satellite View of Nabro Eruption June 18, 2011",
+      "author": "NASA Goddard Photo and Video",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/24662369@N07/5854067164",
+      "fileUrl": "https://live.staticflickr.com/2709/5854067164_809b452c4a_b.jpg",
+      "width": 1024,
+      "height": 819
+    },
+    {
+      "file": "public/assets/news/grain-harvest.jpg",
+      "title": "Combine Harvesting Wheat",
+      "author": "Knowles Gallery",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/36224384@N08/7963985938",
+      "fileUrl": "https://live.staticflickr.com/8309/7963985938_7f0b26fe5d_b.jpg",
+      "width": 1023,
+      "height": 685
+    },
+    {
+      "file": "public/assets/news/city-blocks.jpg",
+      "title": "Downtown Dallas, 10-12-10",
+      "author": "skys the limit2",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/52949402@N03/5080302508",
+      "fileUrl": "https://live.staticflickr.com/4042/5080302508_83299c725e_b.jpg",
+      "width": 1024,
+      "height": 359
+    },
+    {
+      "file": "public/assets/news/freight-corridor.jpg",
+      "title": "Green Cargo freight train Svedala station 20130819",
+      "author": "News Oresund",
+      "license": "CC BY 2.0",
+      "sourcePage": "https://www.flickr.com/photos/88883738@N02/9545810110",
+      "fileUrl": "https://live.staticflickr.com/7316/9545810110_9fc1e8a528_b.jpg",
+      "width": 1024,
+      "height": 732
+    }
+  ]
+}

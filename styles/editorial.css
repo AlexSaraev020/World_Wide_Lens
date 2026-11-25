@@ -1,0 +1,391 @@
+/* World Wide Lens — editorial system
+   Monochrome print identity: ink, paper, rules, folio apparatus, grain.
+   Components use Tailwind utilities + the tokens and devices defined here.
+   No colour anywhere: every state change shifts ink density, never hue. */
+
+:root {
+  /* ink scale — the only "palette" the product has */
+  --paper: #ffffff;
+  --paper-2: #fafafa;
+  --ink-max: #000000;
+  --ink: #09090b;      /* zinc-950 */
+  --ink-2: #18181b;    /* zinc-900 */
+  --ink-3: #3f3f46;    /* zinc-700 */
+  --ink-4: #71717a;    /* zinc-500 — rules and placeholder glyphs only, never body text */
+  --rule-hair: #e4e4e7;
+  --rule: #d4d4d8;
+  --rule-strong: #a1a1aa;
+  --slug: #09090b;
+  --scrim: rgba(9, 9, 11, 0.045);
+
+  /* density tokens that .ink re-assigns on hover/focus */
+  --fg: var(--ink-2);
+  --fg-soft: var(--ink-3);
+  --rule-now: var(--rule);
+  --rule-width: 1px;
+  --wash: transparent;
+
+  /* type */
+  --font-print: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-folio: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --step-display: clamp(3.1rem, 9.2vw, 9rem);
+  --step-lead: clamp(2.35rem, 6.4vw, 6.4rem);
+  --step-headline: clamp(2.1rem, 5.4vw, 4.6rem);
+  --step-sub: clamp(1.45rem, 2.4vw, 2.35rem);
+  --step-lead: clamp(1.125rem, 1.7vw, 1.6rem);
+  --step-body: 1.0625rem;
+  --step-folio: 0.8125rem;
+  --step-micro: 0.75rem;
+  --leading-display: 0.84;
+  --leading-headline: 0.9;
+  --leading-sub: 1.06;
+  --leading-lead: 1.34;
+  --leading-body: 1.72;
+  --track-display: -0.038em;
+  --track-tight: -0.02em;
+  --track-folio: 0.07em;
+
+  /* structure */
+  --gutter: clamp(1rem, 2.4vw, 2.5rem);
+  --measure: 66ch;
+  --measure-wide: 58rem;
+  --hair: 1px;
+
+  /* motion */
+  --ease-ink: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 170ms;
+  --t-slow: 300ms;
+  --stagger: 45ms;
+
+  --grain-opacity: 0.042;
+}
+
+/* Inverse print field: black slab, white type. Audited on its own so contrast
+   does not depend on the light-mode pair. */
+.field-ink,
+.on-ink {
+  --fg: #ffffff;
+  --fg-soft: #d4d4d8;   /* zinc-300 on ink ≈ 12:1 */
+  --ink-max: #ffffff;   /* hover density in an inverted field goes the other way */
+  --ink-2: #d4d4d8;
+  --rule-now: #3f3f46;
+  --wash: rgba(255, 255, 255, 0.07);
+  --slug: #ffffff;
+  --grain-opacity: 0.05;
+  color: var(--fg);
+  background-color: var(--ink);
+}
+
+/* Dark surfaces follow the same monochrome scale, inverted. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #09090b;
+    --paper-2: #18181b;
+    --fg: #fafafa;
+    --fg-soft: #d4d4d8;
+    --ink-max: #ffffff;
+    --rule-hair: #18181b;
+    --rule: #27272a;
+    --rule-strong: #3f3f46;
+    --slug: #fafafa;
+    --scrim: rgba(250, 250, 250, 0.05);
+    --wash: transparent;
+    --grain-opacity: 0.05;
+  }
+  .field-ink {
+    --fg: #09090b;
+    --fg-soft: #27272a;
+    --ink-max: #09090b;
+    --ink-2: #27272a;
+    --rule-now: #71717a;
+    --wash: rgba(9, 9, 11, 0.08);
+    --slug: #09090b;
+    color: var(--fg);
+    background-color: #fafafa;
+  }
+}
+
+html {
+  background-color: var(--paper);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-print);
+  font-size: var(--step-body);
+  line-height: var(--leading-body);
+  color: var(--fg);
+}
+
+/* ---- paper grain ---- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)'/%3E%3C/svg%3E");
+  animation: settle 600ms var(--ease-ink) both;
+}
+@media (prefers-color-scheme: dark) {
+  .grain { mix-blend-mode: screen; }
+}
+
+/* ---- type roles ---- */
+.type-display {
+  font-size: var(--step-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--track-display);
+  font-weight: 800;
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+}
+.type-lead {
+  font-size: var(--step-lead);
+  line-height: 0.86;
+  letter-spacing: var(--track-display);
+  font-weight: 800;
+  font-variation-settings: "opsz" 58;
+  text-wrap: balance;
+}
+.type-headline {
+  font-size: var(--step-headline);
+  line-height: var(--leading-headline);
+  letter-spacing: var(--track-tight);
+  font-weight: 700;
+  font-variation-settings: "opsz" 40;
+  text-wrap: balance;
+}
+.type-sub {
+  font-size: var(--step-sub);
+  line-height: var(--leading-sub);
+  letter-spacing: var(--track-tight);
+  font-weight: 600;
+}
+.standfirst {
+  font-size: var(--step-lead);
+  line-height: var(--leading-lead);
+  font-style: italic;
+  color: var(--fg-soft);
+  max-width: var(--measure);
+}
+.font-print { font-family: var(--font-print); }
+.font-folio {
+  font-family: var(--font-folio);
+  font-size: var(--step-folio);
+  letter-spacing: var(--track-folio);
+  font-variant-caps: all-small-caps;
+  color: var(--fg-soft);
+}
+.folio-micro {
+  font-family: var(--font-folio);
+  font-size: var(--step-micro);
+  letter-spacing: 0.1em;
+  font-variant-caps: all-small-caps;
+  color: var(--fg-soft);
+}
+.body-print p {
+  font-size: var(--step-body);
+  line-height: var(--leading-body);
+  color: var(--fg);
+  max-width: var(--measure);
+  margin-bottom: 1em;
+}
+.body-print p:last-child { margin-bottom: 0; }
+
+/* ---- rules, hairlines, letterpress slugs ---- */
+.rule-hair { border-top: var(--hair) solid var(--rule-now); }
+.rule-side { border-left: var(--hair) solid var(--rule-now); }
+.rule-heavy { border-top: 3px solid var(--slug); }
+.rule-double { border-top: 3px double var(--slug); }
+
+/* A hairline that keeps running past its own column — the grid-break device.
+   Inside normal flow only; it never lifts content out of the document. */
+.rule-bleed::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 0.75rem;
+  background: var(--rule-strong);
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---- ink-density interaction ----
+   Hover and focus re-assign the density tokens; every element that reads them
+   animates its own concrete property, so no colour is ever involved. */
+.ink {
+  transition: background-color var(--t-fast) var(--ease-ink),
+    border-color var(--t-fast) var(--ease-ink), color var(--t-fast) var(--ease-ink);
+}
+.ink * {
+  transition: color var(--t-fast) var(--ease-ink),
+    border-color var(--t-fast) var(--ease-ink), opacity var(--t-fast) var(--ease-ink),
+    filter var(--t-fast) var(--ease-ink);
+}
+@media (hover: hover) {
+  .ink:hover,
+  .ink:focus-visible {
+    --fg: var(--ink-max);
+    --fg-soft: var(--ink-2);
+    --rule-now: var(--rule-strong);
+    --wash: var(--scrim);
+    background-color: var(--wash);
+  }
+  .ink:hover .photo,
+  .ink:focus-visible .photo { filter: grayscale(1) contrast(1.22); }
+}
+.ink:focus-visible {
+  outline: 2px solid var(--ink-max);
+  outline-offset: 4px;
+}
+:where(a, button, input, summary):focus-visible {
+  outline: 2px solid var(--ink-max);
+  outline-offset: 3px;
+}
+
+/* ---- photographs: grayscale only, ratio taken from the measured file ---- */
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) contrast(1.12);
+}
+.photo-frame { background-color: var(--paper-2); }
+
+/* ---- print columns ---- */
+.print-columns { column-count: 1; }
+@media (min-width: 1024px) {
+  .print-columns {
+    column-count: 2;
+    column-gap: var(--gutter);
+    column-rule: 1px solid var(--rule-now);
+  }
+}
+.print-columns p { orphans: 3; widows: 3; break-inside: auto; }
+
+.drop-cap::first-letter {
+  font-family: var(--font-print);
+  font-weight: 800;
+  font-size: 3.6em;
+  line-height: 0.78;
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+}
+
+/* ---- pull quote ---- */
+.pull {
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  line-height: 1.1;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  border-top: 3px solid var(--slug);
+  border-bottom: 3px solid var(--slug);
+  padding-block: 1.25rem;
+}
+
+/* ---- search emphasis: inversion, never a highlight colour ---- */
+mark.match {
+  background-color: var(--ink-max);
+  color: var(--paper);
+  padding: 0 0.16em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.field-ink mark.match,
+.on-ink mark.match {
+  background-color: var(--paper);
+  color: var(--ink-max);
+}
+
+/* ---- rails ---- */
+/* Rails stack on a phone and run sideways from 768px up, where the next item
+  is deliberately cut off at the edge to say "there is more here". */
+.rail {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .rail {
+    flex-direction: row;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule-strong) transparent;
+  }
+  .rail > * {
+    flex: 0 0 clamp(15rem, 46%, 21rem);
+    scroll-snap-align: start;
+  }
+}
+
+/* ---- section marker, letterpress folio ---- */
+.section-mark {
+  font-family: var(--font-folio);
+  font-size: var(--step-folio);
+  letter-spacing: 0.08em;
+  font-variant-caps: all-small-caps;
+  color: var(--fg);
+  border-bottom: 3px solid var(--slug);
+  padding-bottom: 0.35rem;
+}
+
+/* ---- motion: entrance only, orchestrated per page load ---- */
+@keyframes settle {
+  from { opacity: 0; }
+  to { opacity: var(--grain-opacity); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rule-wipe {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.rise {
+  animation: rise var(--t-slow) var(--ease-ink) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+.wipe {
+  transform-origin: left;
+  animation: rule-wipe var(--t-slow) var(--ease-ink) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+/* ---- sticky chrome ---- */
+.running-head {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--paper);
+  border-bottom: 1px solid var(--rule-now);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 70;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--ink-max);
+  color: var(--paper);
+  font-family: var(--font-folio);
+  font-size: var(--step-folio);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .wipe, .grain { animation: none; }
+  .grain { opacity: var(--grain-opacity); }
+  .ink, .ink * { transition: none; }
+  html { scroll-behavior: auto; }
+}
