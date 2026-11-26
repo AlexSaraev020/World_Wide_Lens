@@ -319,6 +319,31 @@ mark.match {
   display: flex;
   flex-direction: column;
 }
+/* The running head's nav is the one rail that must stay a line at every width:
+   stacked, it is 229px of sticky header on an 844px phone. On a phone it takes
+   the whole second line and the desks are set small enough to all fit. */
+@media (max-width: 767px) {
+  .rule-side {
+    border-left: 0;
+    flex: 1 0 100%;
+    padding-left: 0;
+  }
+  nav.rail {
+    flex-direction: row;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  nav.rail > * {
+    flex: 0 0 auto;
+    font-size: 12px;
+    padding-inline: 0.5rem;
+  }
+  /* The desk numbers are a printed-page device; on a five-item phone nav they
+     are the part that does not fit, so they step out. */
+  nav.rail span[aria-hidden="true"] {
+    display: none;
+  }
+}
 @media (min-width: 768px) {
   .rail {
     flex-direction: row;
